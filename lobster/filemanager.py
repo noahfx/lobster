@@ -15,3 +15,7 @@ def get_workingdir():
     path = "/".join([tmp_dir, dir_name])
     os.mkdir(path)
     return path
+
+def get_tmpfile(extension):
+    file_name = '.'.join([str(int(time.time())), extension])
+    return file_name

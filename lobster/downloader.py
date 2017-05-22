@@ -1,6 +1,8 @@
+import time
+
 import pafy
 
-from filemanager import get_workingdir
+from filemanager import get_workingdir, get_tmpfile
 
 class YouTube(object):
     def __init__(self, url):
@@ -36,10 +38,11 @@ class YouTube(object):
         the audiostream size/format is not specified, downloads default audio
         """
         audio_index = lambda : self.audio_available.get(audiostream_key)
-        tmp_dir = get_workingdir()
-        self.audiostreams[audio_index()].download(filepath=tmp_dir)
+        audio = self.audiostreams[audio_index()]
+        tmp_file = '/'.join([get_workingdir(), get_tmpfile(audio.extension)])
+        self.audiostreams[audio_index()].download(filepath=tmp_file)
+        return tmp_file
 
-"""if __name__ == '__main__':
+if __name__ == '__main__':
     yt = YouTube("https://www.youtube.com/watch?v=PYQGU6HWSXw")
     yt.download_audio(audiostream_key='128k-m4a')
-"""
