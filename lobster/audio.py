@@ -38,14 +38,16 @@ def build_time_range(stream_len, streamSegments):
                 stream_segment.end_time = stream_len - time_separator
     return sortedStreamSegments
 
-def split_audio(src_path, dest_path, split_params, audio_format):
+def split_audio(src_file, dest_path, audio_segments, audio_format='webm'):
     """
-    Splits audio file given the time range in params object
+    Splits audio file given the time range in audio segments
     """
-    song = AudioSegment.from_file(src_path, audio_format)
-    #first_10 = song[:1000]
-    #first_10.export(dest_path, format=audio_format)
-    song.export(dest_path, format=audio_format)
+    audio_orig = AudioSegment.from_file(src_file, audio_format)
+    for as_ in audio_segments:
+        tmp_seg = audio_orig[as_.initial_time:as_.end_time]
+        as_.orig_tmp_file = '/'.join([dest_path, as_.name + '.' + audio_format])
+        tmp_seg.export(_as.orig_tmp_file, format=audio_format)
+    return audio_segments
 
 def export(src_file, dest_file, format='mp3'):
     """
