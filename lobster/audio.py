@@ -1,6 +1,7 @@
 import subprocess
 
 from pydub import AudioSegment
+from filemanager import get_workingdir
 
 class StreamSegment(object):
     def __init__(self, name, position, initial_time=None, end_time=None):
@@ -42,9 +43,13 @@ def split_audio(src_file, dest_path, audio_segments, audio_format='webm'):
     """
     Splits audio file given the time range in audio segments
     """
-    audio_orig = AudioSegment.from_file(src_file, audio_format)
+    audio_orig = AudioSegment.from_file(src_file, 'webm')
     for as_ in audio_segments:
-        tmp_seg = audio_orig[as_.initial_time:as_.end_time]
+        print(as_.initial_time)
+        print(type(as_.initial_time))
+        print(as_.end_time)
+        print(type(as_.end_time))
+        tmp_seg = audio_orig[int(as_.initial_time):int(as_.end_time)]
         as_.orig_tmp_file = '/'.join([dest_path, as_.name + '.' + audio_format])
         tmp_seg.export(_as.orig_tmp_file, format=audio_format)
     return audio_segments
@@ -65,15 +70,24 @@ def export(src_file, dest_file, track_metadata=None, format='mp3'):
         raise Exception("Could not encode file")
     return dest_file
 
-def create_tracks(dest_dir, audio_segments, artist, album, format='mp3'):
-    dir_name = '_'.join([artist, album])
+def create_tracks(source_media, dest_dir, audio_segments, artist, album,
+                  source_type, format='mp3'):
+
+    src_format = format
+    if source_type == 'youtube':
+        src_format = 'webm'
+
+    dir_name = '_'.join([artist.replace(' ', '_'), album.replace(' ', '_')])
     dest_dir = '/'.join([dest_dir, dir_name])
-    dest_file = '/'.join([dest_dir ,as_.name + '.' + format])
-    for as_ in audio_segments:
+    dest_file = lambda name: '/'.join([dest_dir ,name.replace(' ', '_') + '.' +\
+                                       format])
+    splitted_segments = split_audio(source_media, get_workingdir(),
+                                    audio_segments, audio_format=src_format)
+    for as_ in splitted_segments:
         track_meta = _create_track_metadata(album, artist,
-                                            as_.name, as._position)
-        export(as_.orig_tmp_file, dest_file,
-               track_metada=track_metada, format=format)
+                                            as_.name, as_.position + 1)
+        export(as_.orig_tmp_file, dest_file(as_.name),
+               track_metada=track_meta, format=format)
 
 def _create_track_metadata(album, artist, name, track_number):
     quote_param = lambda str_: '"' + str_ + '"'
