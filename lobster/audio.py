@@ -24,19 +24,21 @@ def build_time_range(stream_len, streamSegments):
     Sets initial time/end time for segments
     """
     t_separator = 500 #separator between track, milseconds
-    sortedStreamSegments = sort(streamSegments, key=lambda ss: ss.position)
+    sortedStreamSegments = sorted(streamSegments, key=lambda ss: ss.position)
     for idx, stream_segment in enumerate(sortedStreamSegments):
+        stream_segment.initial_time = time_to_mil(stream_segment.initial_time)
         if stream_segment.position == 0:
             stream_segment.initial_time = 0
             if stream_segment.end_time is None:
+                nxt_stream_init_t = sortedStreamSegments[idx + 1].initial_time
                 stream_segment.end_time = time_to_mil(nxt_stream_init_t) - t_separator
-        elif stream_segment.position != len(stream_segment) - 1:
+        elif stream_segment.position < len(streamSegments) - 1:
             if stream_segment.end_time is None:
                 nxt_stream_init_t = sortedStreamSegments[idx + 1].initial_time
                 stream_segment.end_time = time_to_mil(nxt_stream_init_t) - t_separator
         else:
             if stream_segment.end_time is None:
-                stream_segment.end_time = stream_len - time_separator
+                stream_segment.end_time = stream_len - t_separator
     return sortedStreamSegments
 
 def split_audio(src_file, dest_path, audio_segments, audio_format='webm'):
@@ -44,14 +46,19 @@ def split_audio(src_file, dest_path, audio_segments, audio_format='webm'):
     Splits audio file given the time range in audio segments
     """
     audio_orig = AudioSegment.from_file(src_file, 'webm')
+    print('Preparing audio...')
+    s_audio_segments = build_time_range(len(audio_orig), audio_segments)
     for as_ in audio_segments:
+        print('*'*80)
         print(as_.initial_time)
         print(type(as_.initial_time))
         print(as_.end_time)
         print(type(as_.end_time))
+        print('*'*80)
         tmp_seg = audio_orig[int(as_.initial_time):int(as_.end_time)]
-        as_.orig_tmp_file = '/'.join([dest_path, as_.name + '.' + audio_format])
-        tmp_seg.export(_as.orig_tmp_file, format=audio_format)
+        file_name = as_.name.replace(' ', '') + '.' + audio_format
+        as_.orig_tmp_file = '/'.join([dest_path, file_name])
+        tmp_seg.export(as_.orig_tmp_file, format=audio_format)
     return audio_segments
 
 def export(src_file, dest_file, track_metadata=None, format='mp3'):
@@ -87,7 +94,7 @@ def create_tracks(source_media, dest_dir, audio_segments, artist, album,
         track_meta = _create_track_metadata(album, artist,
                                             as_.name, as_.position + 1)
         export(as_.orig_tmp_file, dest_file(as_.name),
-               track_metada=track_meta, format=format)
+               track_metadata=track_meta, format=format)
 
 def _create_track_metadata(album, artist, name, track_number):
     quote_param = lambda str_: '"' + str_ + '"'
