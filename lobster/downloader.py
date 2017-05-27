@@ -19,8 +19,9 @@ class YouTube(object):
         for i, audiostream in enumerate(audiostreams):
             _key = '-'.join([audiostream.bitrate, audiostream.extension])
             if audiostream.extension == 'webm':
-                if int(audiostream.bitrate) > highest_rate:
-                    highest_rate = int(audiostream.bitrate)
+                bitrate = int(audiostream.bitrate.replace('k', ''))
+                if bitrate > highest_rate:
+                    highest_rate = bitrate
                     highest_webm = _key
             print(_key)
             audiostream_dict[_key] = i
