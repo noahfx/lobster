@@ -15,10 +15,18 @@ class YouTube(object):
         """
         audiostream_dict = dict()
         i = 0
+        highest_webm = None
+        highest_rate = 0
         for audiostream in audiostreams:
             _key = '-'.join([audiostream.bitrate, audiostream.extension])
+            if audiostream.extension == 'webm':
+                if int(audiostream.bitrate) > highest_rate:
+                    highest_rate = int(audiostream.bitrate)
+                    highest_webm = _key
+            print(_key)
             audiostream_dict[_key] = i
             i+=1
+        audiostream_dict['high'] = highest_webm
         return audiostream_dict
 
     def _metadata(self, url):
@@ -44,5 +52,5 @@ class YouTube(object):
         return tmp_file
 
 if __name__ == '__main__':
-    yt = YouTube("https://www.youtube.com/watch?v=PYQGU6HWSXw")
-    yt.download_audio(audiostream_key='128k-m4a')
+    yt = YouTube("https://www.youtube.com/watch?v=Z4SvMdNPUcc")
+    yt.download_audio(audiostream_key='160k-webm')
