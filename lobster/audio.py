@@ -1,7 +1,7 @@
 import subprocess
 
 from pydub import AudioSegment
-from filemanager import get_workingdir, get_album_dir
+from .filemanager import get_workingdir, get_album_dir
 
 class StreamSegment(object):
     def __init__(self, name, position, initial_time=None, end_time=None):

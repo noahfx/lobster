@@ -1,4 +1,4 @@
-from audio import StreamSegment
+from .audio import StreamSegment
 
 def parse_tracks_file(tracks_file):
     """
