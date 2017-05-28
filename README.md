@@ -1,5 +1,5 @@
 # lobster -- Divide audio files into tracks with a single command
-Sometimes we have found an amazing album but it is not devided in a proper way, just a big long song...
+Sometimes we have found an amazing album but it is not divided in a proper way, just a big long song...
 with lobster you can retrieve the long audio file (local or download audio from Youtube video) and divide
 it into mp3 files and store them into their album directory just with one simple command:
 
