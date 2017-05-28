@@ -23,7 +23,6 @@ class YouTube(object):
                 if bitrate > highest_rate:
                     highest_rate = bitrate
                     highest_webm = _key
-            print(_key)
             audiostream_dict[_key] = i
         audiostream_dict['high'] = highest_webm
         return audiostream_dict

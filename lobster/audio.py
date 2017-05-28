@@ -46,15 +46,9 @@ def split_audio(src_file, dest_path, audio_segments, audio_format='webm'):
     Splits audio file given the time range in audio segments
     """
     audio_orig = AudioSegment.from_file(src_file, 'webm')
-    print('Preparing audio...')
+    print('Preparing audio, this may take a while... go for coffee')
     s_audio_segments = build_time_range(len(audio_orig), audio_segments)
     for as_ in audio_segments:
-        print('*'*80)
-        print(as_.initial_time)
-        print(type(as_.initial_time))
-        print(as_.end_time)
-        print(type(as_.end_time))
-        print('*'*80)
         tmp_seg = audio_orig[int(as_.initial_time):int(as_.end_time)]
         file_name = as_.name.replace(' ', '') + '.' + audio_format
         as_.orig_tmp_file = '/'.join([dest_path, file_name])
@@ -74,7 +68,6 @@ def export(src_file, dest_file, track_metadata=None, format='mp3'):
         ffmpeg_cmd = ffmpeg_cmd + track_metadata + cmd_last
     else:
         ffmpeg_cmd = ffmpeg_cmd + cmd_last
-    print(ffmpeg_cmd)
     p = subprocess.Popen(ffmpeg_cmd,  stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
     out, err = p.communicate()
@@ -85,13 +78,13 @@ def export(src_file, dest_file, track_metadata=None, format='mp3'):
 
 def create_tracks(source_media, dest_dir, audio_segments, artist, album,
                   source_type, format='mp3'):
-
     src_format = format
     if source_type == 'youtube':
         src_format = 'webm'
-
     dir_name = '_'.join([artist.replace(' ', '_'), album.replace(' ', '_')])
     dest_dir = '/'.join([dest_dir, dir_name])
+    print(dest_dir)
+    print(format)
     dest_file = lambda name: '/'.join([dest_dir ,name.replace(' ', '_') + '.' +\
                                        format])
     splitted_segments = split_audio(source_media, get_workingdir(),

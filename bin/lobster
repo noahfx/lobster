@@ -1,8 +1,11 @@
+#!/usr/bin/env python
 import argparse
 
-from audio import create_tracks
-from downloader import YouTube
-from parser import parse_tracks_file
+import lobster
+
+from lobster.audio import create_tracks
+from lobster.downloader import YouTube
+from lobster.parser import parse_tracks_file
 
 def get_from_youtube(source):
     yt = YouTube(source)
