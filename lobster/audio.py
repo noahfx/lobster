@@ -1,7 +1,7 @@
 import subprocess
 
 from pydub import AudioSegment
-from filemanager import get_workingdir
+from filemanager import get_workingdir, get_album_dir
 
 class StreamSegment(object):
     def __init__(self, name, position, initial_time=None, end_time=None):
@@ -66,14 +66,20 @@ def export(src_file, dest_file, track_metadata=None, format='mp3'):
     Exports webm file to mp3 or ogg format file, replaces pydub export
     due to issues with ffmpeg
     """
-    ffmpeg_cmd = ['ffmpeg', '-i', src_file, '-vn', '-ab', '320k', 'ar', '44100',
-                  '-y', dest_file ]
+    print('Exporting audio to {}'.format(dest_file))
+    ffmpeg_cmd = ['ffmpeg', '-i', src_file, '-vn', '-ab', '320k', '-ar',
+                  '44100']
+    cmd_last = ['-y', dest_file ]
     if track_metadata is not None:
-        ffmpeg_cmd = ffmpeg_cmd + track_metadata
+        ffmpeg_cmd = ffmpeg_cmd + track_metadata + cmd_last
+    else:
+        ffmpeg_cmd = ffmpeg_cmd + cmd_last
+    print(ffmpeg_cmd)
     p = subprocess.Popen(ffmpeg_cmd,  stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
     out, err = p.communicate()
     if p.returncode != 0:
+        print(err)
         raise Exception("Could not encode file")
     return dest_file
 
@@ -90,6 +96,8 @@ def create_tracks(source_media, dest_dir, audio_segments, artist, album,
                                        format])
     splitted_segments = split_audio(source_media, get_workingdir(),
                                     audio_segments, audio_format=src_format)
+    album_dir = get_album_dir(dest_dir)
+    print("Created {}".format(album_dir))
     for as_ in splitted_segments:
         track_meta = _create_track_metadata(album, artist,
                                             as_.name, as_.position + 1)
@@ -97,8 +105,8 @@ def create_tracks(source_media, dest_dir, audio_segments, artist, album,
                track_metadata=track_meta, format=format)
 
 def _create_track_metadata(album, artist, name, track_number):
-    quote_param = lambda str_: '"' + str_ + '"'
-    return ['-metadata', '='.join(['title', quote_param(name)]),
-            '-metadata', '='.join(['author', quote_param(artist)]),
-            '-metadata', '='.join(['album', quote_param(album)]),
+    return ['-metadata', '='.join(['title', name]),
+            '-metadata', '='.join(['album_artist', artist]),
+            '-metadata', '='.join(['artist', artist]),
+            '-metadata', '='.join(['album', album]),
             '-metadata', '='.join(['track', str(track_number)])]
