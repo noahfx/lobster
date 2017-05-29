@@ -15,7 +15,7 @@ setup(
     keywords="audio track edit cut youtube ffmpeg mp3 ogg",
     url="https://github.com/noahfx/lobster",
     classifiers = [
-        "Development Status :: 1 - Alpha",
+        "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
