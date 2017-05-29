@@ -4,7 +4,7 @@ with lobster you can retrieve the long audio file (local or download audio from 
 it into mp3 files and store them into their album directory just with one simple command:
 
 ```
-:~$ lobster --artist="Samsara Blues Experiment" --album="Long Distance Trip" --tracks=/tmp/tracks \ 
+$ lobster --artist="Samsara Blues Experiment" --album="Long Distance Trip" --tracks=/tmp/tracks \ 
            --source=youtube --input=https://www.youtube.com/watch?v=6vpOHq8bkzA --output=/tmp/
 ```
 Maybe you are wondering where did you specify where to divide the track, all magic happens in the file which 
@@ -25,7 +25,7 @@ You can find an example file under the examples directory.
 ## Usage
 
 ```
-:~$ lobster -h
+$ lobster -h
 usage: lobster [-h] --artist ARTIST --album ALBUM --tracks TRACKS --source
                {local,youtube} --input INPUT --output OUTPUT [--format FORMAT]
 
@@ -53,5 +53,5 @@ optional arguments:
 You can install the lobster via the package manager:
 
 ```
-:~$ sudo pip install lobster 
+$ sudo pip install lobster 
 ```
