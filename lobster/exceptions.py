@@ -6,3 +6,9 @@ class InvalidURLException(Exception):
 
 class InvalidTrackNumber(Exception):
     pass
+
+class InvalidTrackTime(Exception):
+    pass
+
+class InvalidSourceType(Exception):
+    pass
