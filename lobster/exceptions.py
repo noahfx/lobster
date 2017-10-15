@@ -12,3 +12,9 @@ class InvalidTrackTime(Exception):
 
 class InvalidSourceType(Exception):
     pass
+
+class InvalidArtistNameException:
+    pass
+
+class InvalidAlbumNameException:
+    pass
