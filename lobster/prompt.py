@@ -81,6 +81,12 @@ def wizard():
                 position=i,
                 initial_time=init_time
             ))
+        confirmation_value = prompt_print(
+            generate_confirmation_message(input_data),
+            direction='STDIN'
+        )
+        if confirmation_value.lower() == 'n':
+            raise WizardError
     except InvalidArtistNameException:
         prompt_print(ARTIST_NAME_MESSAGE_ERROR, direction='STDOUT')
         raise WizardError
