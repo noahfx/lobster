@@ -1,7 +1,7 @@
 class InputFileException(Exception):
     pass
 
-class InvalidURLException(Exception):
+class InvalidURIException(Exception):
     pass
 
 class InvalidTrackNumber(Exception):
