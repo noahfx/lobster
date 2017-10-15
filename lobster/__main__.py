@@ -2,12 +2,12 @@
 import sys
 import argparse
 
-import lobster
 
-from lobster.audio import create_tracks
-from lobster.downloader import YouTube
-from lobster.parser import parse_tracks_file
-from lobster.prompt import wizard
+from .audio import create_tracks
+from .downloader import YouTube
+from .parser import parse_tracks_file
+from .prompt import wizard
+from .exceptions  import WizardError
 
 def get_from_youtube(source):
     yt = YouTube(source)
@@ -75,7 +75,10 @@ def main():
             del kwargs['mode']
             generate_album(**kwargs)
     elif mode == 'wizard':
-        generate_album(**wizard())
+        try:
+            generate_album(**wizard())
+        except WizardError:
+            sys.exit()
     else:
         print('Invalid {} mode'.format(mode))
 
