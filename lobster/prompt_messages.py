@@ -1,7 +1,7 @@
 URL_MESSAGE = ' Enter Video URL: '
 TRACKS_NUMBER_MESSAGE = ' Enter Number of tracks: '
 TRACK_NAME_MESSAGE = ' Enter Track Number {} Name: '
-TRACK_INIT_MESSAGE = ' Enter Time where Track {} starts: (e.g: 04:20)'
+TRACK_INIT_MESSAGE = ' Enter Time where Track {} starts: (e.g: 04:20) '
 OUTPUT_DIRECTORY_MESSAGE = ' Enter the destination directory: '
 SOURCE_MESSAGE = ' Enter source file path: '
 SOURCE_TYPE_MESSAGE = ' Enter the source y=Youtube|l=local: [Y/l] '
@@ -22,11 +22,12 @@ def generate_confirmation_message(data):
     Generates confirmation message showing all data
     retrieved from wizard
     """
-    _data0 = ' artist: %(artist)s \n album: %(album)s \n source: %(source) \n' \
-             ' input: %(input)s \n ' % data
-    _data1 = ''
-    for track in data.get('tracks'):
-        _data1 = ' {} {} '.format(_data1, str(track))
 
-    _data2 = ' Is the above information correct: [Y/n] '
-    return ' {} {} {} '.format(_data0, _data1, _data2)
+    _data0 = 'artist: %(artist)s \n album: %(album)s \n source: %(source)s \n' \
+             ' input: %(input)s \n output: %(output)s' % data
+    _data1 = ' tracks: \n'
+    for track in data.get('tracks'):
+        _data1 = '{} {} \n{}\n'.format(_data1, str(track), 15*'-')
+
+    _data2 = 'Is the above information correct: [Y/n]'
+    return '\n information:\n {}\n{}\n{}'.format(_data0, _data1, _data2)
