@@ -8,15 +8,15 @@ from .exceptions import(
     InvalidArtistNameException
 )
 
-def validate_url(url):
-    url = url.strip()
+def validate_url(uri):
+    uri = uri.strip()
     pattern_url = '^(http|https)\:\/\/(([a-zA-Z0-9]|\?|\/|\=|\+|\.|\-))+$'
     pattern_local_file = '^(([\.\/])*([a-zA-Z0-9\-\.\_\~]+))+$'
     regex_url = re.compile(pattern_url)
     regex_local_file = re.compile(pattern_local_file)
-    if None in [regex.match(regex_url), regex.match(regex_local_file)]:
+    if regex_url.match(uri) is None and regex_local_file.match(uri) is None:
         raise InvalidURIException
-    return url
+    return uri
 
 def validate_track_number(number):
     try:
@@ -46,7 +46,7 @@ def _validate_name(name, exception):
     return name
 
 def validate_artist_name(name):
-    return _validate_name(name, IvalidArtistNameException)
+    return _validate_name(name, InvalidArtistNameException)
 
 def validate_album_name(name):
     return _validate_name(name, InvalidAlbumNameException)
