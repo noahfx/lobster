@@ -11,6 +11,13 @@ class StreamSegment(object):
         self.end_time = end_time
         self.orig_tmp_file = None
 
+    def __str__(self):
+        return "name: {} \n poisition: {} \n initial time: {} \n".format(
+            self.name,
+            str(self.position),
+            str(self.initial_time)
+        )
+
 def time_to_mil(time):
     splitted_time = time.split(":")
     if len(splitted_time) == 2:
