@@ -5,7 +5,7 @@ setup(
     packages=["lobster"],
     package_data={'': ['LICENSE']},
     package_dir={'lobster': 'lobster'},
-    scripts=['bin/lobster'],
+    entry_points={'consoe_scripts' : ['lobster=lobster.__main__:main']},
     install_requires=['pafy>=0.5.2', 'pydub'],
     author="Josue Ortega",
     author_email="josueortega@protonmail.ch",

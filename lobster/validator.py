@@ -1,5 +1,5 @@
 import re
-from exceptions import(
+from .exceptions import(
     InvalidURIException,
     InvalidTrackNumber,
     InvalidTrackTime,

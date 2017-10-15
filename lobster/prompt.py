@@ -2,10 +2,10 @@ import sys
 import time
 import readline
 
-#from audio import StreamSegment
-from prompt_messages import *
-from exceptions import *
-from validator import (
+from .audio import StreamSegment
+from .prompt_messages import *
+from .exceptions import *
+from .validator import (
     validate_url,
     validate_track_number,
     validate_source_type,
