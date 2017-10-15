@@ -36,26 +36,34 @@ def generate_album(artist, album, tracks, source, input, output,
 
 def main():
     parser = argparse.ArgumentParser(description='Cut audio files with a single command')
-    parser.add_argument('--artist', '-ar',  type=str, required=True,
+    parser.add_argument('--artist', '-ar',  type=str, required=False,
                         help='Name of the artist of the track this will be used '\
                         + 'to name the output directory')
-    parser.add_argument('--album', '-al', type=str, required=True,
+    parser.add_argument('--album', '-al', type=str, required=False,
                         help='Name of the album, this will be used to name '\
                         + 'the output directory')
-    parser.add_argument('--tracks', '-t', type=str, required=True,
+    parser.add_argument('--tracks', '-t', type=str, required=False,
                         help='File containing the information to build the tracks')
     parser.add_argument('--source', '-s',  type=str, choices=['local', 'youtube'],
-                        required=True, help='Name of the media file source')
-    parser.add_argument('--input', '-i', type=str, required=True,
+                        required=False, help='Name of the media file source')
+    parser.add_argument('--input', '-i', type=str, required=False,
                         help='Path to the source media file')
-    parser.add_argument('--output', '-o', type=str, required=True,
+    parser.add_argument('--output', '-o', type=str, required=False,
                         help='Path to the utput directory')
     parser.add_argument('--format', type=str, help='Input media file format',
                         default='mp3')
     kwargs=vars(parser.parse_args())
-
+    print(kwargs)
     if kwargs.get('wizard') is None:
-        generate_album(**kwargs)
+        required_fields = ["artist", "album", "tracks", "source", "input",
+                           "output"]
+        should_generate = True
+        for req_field in required_fields:
+            if kwargs.get(req_field) is None:
+                should_generate = False
+                print("Missing required argument --{}".format(req_field))
+        if should_generate:
+            generate_album(**kwargs)
     else:
         generate_album(**wizard())
 
