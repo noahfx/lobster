@@ -46,11 +46,9 @@ def wizard():
     prompt_print(get_clam(), color='RED', direction='STDOUT')
     try:
         input_data['artist'] = validate_artist_name(
-            prompt_print(ARTIST_NAME_MESSAGE), direction='STDIN'
-        )
+            prompt_print(ARTIST_NAME_MESSAGE, direction='STDIN'))
         input_data['album'] = validate_album_name(
-            prompt_print(ALBUM_NAME_MESSAGE, direction='STDIN')
-        )
+            prompt_print(ALBUM_NAME_MESSAGE, direction='STDIN'))
         input_data['source'] = validate_source_type(prompt_print(
             SOURCE_TYPE_MESSAGE,
             direction='STDIN'
@@ -65,12 +63,13 @@ def wizard():
 
         input_data['output'] = prompt_print(OUTPUT_DIRECTORY_MESSAGE,
                                             direction='STDIN')
-        input_data['track_number'] = validate_track_number(prompt_print(
+
+        number_of_tracks = validate_track_number(prompt_print(
             TRACKS_NUMBER_MESSAGE,
             direction='STDIN'
         ))
 
-        for i in range(0, input_data.get('track_number')):
+        for i in range(0, number_of_tracks):
             _number = str(i + 1)
             name = prompt_print(TRACK_NAME_MESSAGE.format(_number),
                                 direction='STDIN')
