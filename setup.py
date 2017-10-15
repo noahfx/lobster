@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 setup(
     name="lobster",
-    version="0.1.0",
+    version="0.3.0",
     packages=["lobster"],
     package_data={'': ['LICENSE']},
     package_dir={'lobster': 'lobster'},
