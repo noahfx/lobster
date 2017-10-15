@@ -8,12 +8,14 @@ from exceptions import *
 from validator import (
     validate_url,
     validate_track_number,
-    validate_source_type
+    validate_source_type,
+    validate_artist_name,
+    validate_album_name
 )
 
 def prompt_print(message, direction='STDOUT', color=None):
     """
-    Prints to prompt stdout 
+    Prints to prompt stdout
     """
     def _print(message_):
         return '<lobster> {}'.format(message_)
@@ -40,9 +42,15 @@ def get_clam():
     return ' (\/) (°,,,°) (\/) -- woop woop woop'
 
 def wizard():
-    input_data = dict(segments=[])
+    input_data = dict(tracks=[])
     prompt_print(get_clam(), color='RED', direction='STDOUT')
     try:
+        input_data['artist'] = validate_artist_name(
+            prompt_print(ARTIST_NAME_MESSAGE), direction='STDIN'
+        )
+        input_data['album'] = validate_album_name(
+            prompt_print(ALBUM_NAME_MESSAGE, direction='STDIN')
+        )
         input_data['source'] = validate_source_type(prompt_print(
             SOURCE_TYPE_MESSAGE,
             direction='STDIN'
@@ -50,7 +58,7 @@ def wizard():
         SOURCE_LOCATION_MESSAGE = URL_MESSAGE \
                                   if input_data.get('source') is 'youtube' \
                                      else SOURCE_MESSAGE
-        input_data['url'] = validate_url(prompt_print(
+        input_data['input'] = validate_url(prompt_print(
             SOURCE_LOCATION_MESSAGE,
             direction='STDIN'
         ))
@@ -68,12 +76,15 @@ def wizard():
                                 direction='STDIN')
             init_time = prompt_print(TRACK_INIT_MESSAGE.format(_number),
                                      direction='STDIN')
-            input_data.get('segments').append(StreamSegment(
+            input_data.get('tracks').append(StreamSegment(
                 name=name,
                 position=i,
                 initial_time=init_time
             ))
-
+    except InvalidArtistNameException:
+        prompt_print(ARTIST_NAME_MESSAGE_ERROR, direction='STDOUT')
+    except InvalidAlbumNameException:
+        prompt_print(ALBUM_NAME_MESSAGE_ERROR, direction='STDOUT')
     except InvalidURIException:
         prompt_print(URL_MESSAGE_ERROR, direction='STDOUT')
     except InvalidTrackNumber:
@@ -82,5 +93,4 @@ def wizard():
         prompt_print(TRACK_TIME_MESSAGE_ERROR, direction='STDOUT')
     except InvalidSourceType:
         prompt_print(SOURCE_TYPE_ERROR, direction='STDOUT')
-
-wizard()
+    return input_data
