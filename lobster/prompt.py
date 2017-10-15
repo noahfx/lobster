@@ -104,4 +104,5 @@ def wizard():
     except InvalidSourceType:
         prompt_print(SOURCE_TYPE_ERROR, direction='STDOUT')
         raise WizardError
+    input_data['from_wizard'] = True
     return input_data
