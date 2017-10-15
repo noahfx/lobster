@@ -64,22 +64,20 @@ def wizard():
 
         for i in range(0, input_data.get('track_number')):
             _number = str(i + 1)
-            name = prompt_print(TRACK_NAME_MESSAGE.format(_number), direction='STDIN')
-            init_time = prompt_print(TRACK_INIT_MESSAGE.format(_number), direction='STDIN')
-            """input_data.get('segments').append(StreamSegment(
+            name = prompt_print(TRACK_NAME_MESSAGE.format(_number),
+                                direction='STDIN')
+            init_time = prompt_print(TRACK_INIT_MESSAGE.format(_number),
+                                     direction='STDIN')
+            input_data.get('segments').append(StreamSegment(
                 name=name,
                 position=i,
                 initial_time=init_time
-            ))"""
+            ))
 
-    except InvalidURLException:
-        input_data['url'] = validate_url(prompt_print(URL_MESSAGE_ERROR,
-                                                      direction='STDIN'))
+    except InvalidURIException:
+        prompt_print(URL_MESSAGE_ERROR, direction='STDOUT')
     except InvalidTrackNumber:
-        input_data['track_number'] = validate_track_number(
-            prompt_print(TRACKS_NUMBER_ERROR),
-            direction='STDIN'
-        )
+        prompt_print(TRACKS_NUMBER_ERROR, direction='STDOUT')
     except InvalidTrackTime:
         prompt_print(TRACK_TIME_MESSAGE_ERROR, direction='STDOUT')
     except InvalidSourceType:
