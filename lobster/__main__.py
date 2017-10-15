@@ -35,7 +35,10 @@ def generate_album(artist, album, tracks, source, input, output,
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Cut audio files with a single command')
+    parser = argparse.ArgumentParser(
+        prog='lobster',
+        description='Cut audio files with a single command'
+    )
     parser.add_argument('--artist', '-ar',  type=str, required=False,
                         help='Name of the artist of the track this will be used '\
                         + 'to name the output directory')
@@ -52,9 +55,15 @@ def main():
                         help='Path to the utput directory')
     parser.add_argument('--format', type=str, help='Input media file format',
                         default='mp3')
+    mode_help_mesage = 'Launch Lobster in Wizard or Command mode,`wizard`'\
+                        ' will launch the Wizard mode, `cmd` will lauch' \
+                        ' Command mode, `cmd` is the current default '
+    parser.add_argument('--mode', '-m', type=str,
+                        help=mode_help_mesage,
+                        default='cmd')
     kwargs=vars(parser.parse_args())
-    print(kwargs)
-    if kwargs.get('wizard') is None:
+    mode = kwargs.get('mode').lower()
+    if mode == 'cmd':
         required_fields = ["artist", "album", "tracks", "source", "input",
                            "output"]
         should_generate = True
@@ -63,8 +72,11 @@ def main():
                 should_generate = False
                 print("Missing required argument --{}".format(req_field))
         if should_generate:
+            del kwargs['mode']
             generate_album(**kwargs)
-    else:
+    elif mode == 'wizard':
         generate_album(**wizard())
+    else:
+        print('Invalid {} mode'.format(mode))
 
 sys.exit(main())
