@@ -16,7 +16,7 @@ def parse_tracks_file(tracks_file):
                 raise InputFileException('Input File Error: Missing separator'\
                                          + ' in  line {}'.format(str(pos)))
             _d = line.split(separator)
-            validate_line(_d)
+            validate_line(_d, line)
             stream_segs.append(StreamSegment(name=_d[0], position=pos,
                               initial_time=_d[1], end_time=None))
     return stream_segs
