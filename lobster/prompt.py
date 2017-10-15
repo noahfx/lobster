@@ -83,14 +83,20 @@ def wizard():
             ))
     except InvalidArtistNameException:
         prompt_print(ARTIST_NAME_MESSAGE_ERROR, direction='STDOUT')
+        raise WizardError
     except InvalidAlbumNameException:
         prompt_print(ALBUM_NAME_MESSAGE_ERROR, direction='STDOUT')
+        raise WizardError
     except InvalidURIException:
         prompt_print(URL_MESSAGE_ERROR, direction='STDOUT')
+        raise WizardError
     except InvalidTrackNumber:
         prompt_print(TRACKS_NUMBER_ERROR, direction='STDOUT')
+        raise WizardError
     except InvalidTrackTime:
         prompt_print(TRACK_TIME_MESSAGE_ERROR, direction='STDOUT')
+        raise WizardError
     except InvalidSourceType:
         prompt_print(SOURCE_TYPE_ERROR, direction='STDOUT')
+        raise WizardError
     return input_data
