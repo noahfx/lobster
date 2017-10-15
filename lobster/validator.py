@@ -3,7 +3,9 @@ from exceptions import(
     InvalidURIException,
     InvalidTrackNumber,
     InvalidTrackTime,
-    InvalidSourceType
+    InvalidSourceType,
+    InvalidAlbumNameException,
+    InvalidArtistNameException
 )
 
 def validate_url(url):
@@ -37,3 +39,14 @@ def validate_source_type(type_):
     if type_ == 'l':
         return 'local'
     return 'youtube'
+
+def _validate_name(name, exception):
+    if len(name) < 1:
+        raise exception
+    return name
+
+def validate_artist_name(name):
+    return _validate_name(name, IvalidArtistNameException)
+
+def validate_album_name(name):
+    return _validate_name(name, InvalidAlbumNameException)
