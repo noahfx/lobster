@@ -16,3 +16,17 @@ TRACK_TIME_MESSAGE_ERROR = ' Error: Invalid format for track time'
 SOURCE_TYPE_ERROR = ' Error: Invalid Source Type'
 ALBUM_NAME_MESSAGE_ERROR = ' Invalid album name '
 ARTIST_NAME_MESSAGE_ERROR = ' Invalid artist name '
+
+def generate_confirmation_message(data):
+    """
+    Generates confirmation message showing all data
+    retrieved from wizard
+    """
+    _data0 = ' artist: %(artist)s \n album: %(album)s \n source: %(source) \n' \
+             ' input: %(input)s \n ' % data
+    _data1 = ''
+    for track in data.get('tracks'):
+        _data1 = ' {} {} '.format(_data1, str(track))
+
+    _data2 = ' Is the above information correct: [Y/n] '
+    return ' {} {} {} '.format(_data0, _data1, _data2)
