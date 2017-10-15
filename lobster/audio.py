@@ -14,7 +14,7 @@ class StreamSegment(object):
     def __str__(self):
         return "name: {} \n poisition: {} \n initial time: {} \n".format(
             self.name,
-            str(self.position),
+            str(self.position + 1),
             str(self.initial_time)
         )
 
