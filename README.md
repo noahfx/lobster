@@ -24,6 +24,89 @@ You can find an example file under the examples directory.
 
 ## Usage
 
+But if you do not want to an input file or write all those arguments, There is
+wizard mode for you, run lobster as Wizard and forgot about all the above syntax
+
+```
+$ lobster -m wizard
+
+<lobster>  (\/) (°,,,°) (\/) -- woop woop woop
+<lobster>  Enter artist name: Gorilla Pulp  
+<lobster>  Enter album name: Heavy Lips
+<lobster>  Enter the source y=Youtube|l=local: [Y/l]
+<lobster>  Enter Video URL: https://www.youtube.com/watch?v=W1vY6qVTqkM
+<lobster>  Enter the destination directory: /tmp
+<lobster>  Enter Number of tracks: 8
+<lobster>  Enter Track Number 1 Name: Bless The Moon
+<lobster>  Enter Time where Track 1 starts: (e.g: 04:20) 00:00
+<lobster>  Enter Track Number 2 Name: In your waters
+<lobster>  Enter Time where Track 2 starts: (e.g: 04:20) 04:34
+<lobster>  Enter Track Number 3 Name: The Witches Twirl
+<lobster>  Enter Time where Track 3 starts: (e.g: 04:20) 8:07
+<lobster>  Enter Track Number 4 Name: Heavy Lips
+<lobster>  Enter Time where Track 4 starts: (e.g: 04:20) 12:04
+<lobster>  Enter Track Number 5 Name: Cactus Killer
+<lobster>  Enter Time where Track 5 starts: (e.g: 04:20) 18:14
+<lobster>  Enter Track Number 6 Name: Prey On Your Mind
+<lobster>  Enter Time where Track 6 starts: (e.g: 04:20) 22:37
+<lobster>  Enter Track Number 7 Name: The Low Song
+<lobster>  Enter Time where Track 7 starts: (e.g: 04:20) 27:18
+<lobster>  Enter Track Number 8 Name: Ape Eyes
+<lobster>  Enter Time where Track 8 starts: (e.g: 04:20) 32:48
+<lobster>
+ information:
+ artist: Gorilla Pulp
+ album: Heavy Lips
+ source: youtube
+ input: https://www.youtube.com/watch?v=W1vY6qVTqkM
+ output: /tmp
+ name: Bless The Moon poisition: 1
+ initial time: 00:00
+
+---------------
+ name: In your waters
+ poisition: 2
+ initial time: 04:34
+
+---------------
+ name: The Witches Twirl 
+ poisition: 3 
+ initial time: 8:07 
+ 
+---------------
+ name: Heavy Lips 
+ poisition: 4 
+ initial time: 12:04 
+ 
+---------------
+ name: Cactus Killer 
+ poisition: 5 
+ initial time: 18:14 
+ 
+---------------
+ name: Prey On Your Mind 
+ poisition: 6 
+ initial time: 22:37 
+ 
+---------------
+ name: The Low Song 
+ poisition: 7 
+ initial time: 27:18 
+ 
+---------------
+ name: Ape Eyes 
+ poisition: 8 
+ initial time: 32:48 
+ 
+---------------
+
+Is the above information correct: [Y/n]
+
+
+```
+
+## Usage for Nerds
+
 ```
 $ lobster -h
 usage: lobster [-h] --artist ARTIST --album ALBUM --tracks TRACKS --source
@@ -48,7 +131,10 @@ optional arguments:
   --output OUTPUT, -o OUTPUT
                         Path to the utput directory
   --format FORMAT       Input media file format
-  ``` 
+  --mode MODE, -m MODE  Launch Lobster in Wizard or Command mode,`wizard` will
+                        launch the Wizard mode, `cmd` will lauch Command mode,
+                        `cmd` is the current default
+  ```
 
 You can install the lobster via the package manager:
 
