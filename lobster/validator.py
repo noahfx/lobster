@@ -1,16 +1,19 @@
 import re
 from exceptions import(
-    InvalidURLException,
+    InvalidURIException,
     InvalidTrackNumber,
     InvalidTrackTime,
     InvalidSourceType
 )
 
 def validate_url(url):
-    pattern = '(http|https)\:\/\/(([a-zA-Z0-9]|\?|\/|\=|\+|\.|\-))+$'
-    regex = re.compile(pattern)
-    if regex.match(url) is None:
-        raise InvalidURLException
+    url = url.strip()
+    pattern_url = '^(http|https)\:\/\/(([a-zA-Z0-9]|\?|\/|\=|\+|\.|\-))+$'
+    pattern_local_file = '^(([\.\/])*([a-zA-Z0-9\-\.\_\~]+))+$'
+    regex_url = re.compile(pattern_url)
+    regex_local_file = re.compile(pattern_local_file)
+    if None in [regex.match(regex_url), regex.match(regex_local_file)]:
+        raise InvalidURIException
     return url
 
 def validate_track_number(number):
