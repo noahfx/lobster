@@ -10,7 +10,7 @@ from .exceptions import(
 
 def validate_url(uri):
     uri = uri.strip()
-    pattern_url = '^(http|https)\:\/\/(([a-zA-Z0-9]|\?|\/|\=|\+|\.|\-))+$'
+    pattern_url = '^(http|https)\:\/\/(([a-zA-Z0-9]|\?|\/|\=|\+|\.|\-|\_))+$'
     pattern_local_file = '^(([\.\/])*([a-zA-Z0-9\-\.\_\~]+))+$'
     regex_url = re.compile(pattern_url)
     regex_local_file = re.compile(pattern_local_file)
