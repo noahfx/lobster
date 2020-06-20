@@ -35,10 +35,12 @@ def build_time_range(stream_len, streamSegments):
     for idx, stream_segment in enumerate(sortedStreamSegments):
         stream_segment.initial_time = time_to_mil(stream_segment.initial_time)
         if stream_segment.position == 0:
-            stream_segment.initial_time = 0
             if stream_segment.end_time is None:
-                nxt_stream_init_t = sortedStreamSegments[idx + 1].initial_time
-                stream_segment.end_time = time_to_mil(nxt_stream_init_t) - t_separator
+                if len(streamSegments) == 1:
+                    stream_segment.end_time = stream_len - t_separator
+                else:
+                    nxt_stream_init_t = sortedStreamSegments[idx + 1].initial_time
+                    stream_segment.end_time = time_to_mil(nxt_stream_init_t) - t_separator
         elif stream_segment.position < len(streamSegments) - 1:
             if stream_segment.end_time is None:
                 nxt_stream_init_t = sortedStreamSegments[idx + 1].initial_time
