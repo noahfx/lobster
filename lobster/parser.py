@@ -18,7 +18,7 @@ def parse_tracks_file(tracks_file):
             _d = line.split(separator)
             validate_line(_d)
             stream_segs.append(StreamSegment(name=_d[0], position=pos,
-                              initial_time=_d[1], end_time=None))
+                              initial_time=_d[1], end_time=None if len(_d) < 3 else _d[2]))
     return stream_segs
 
 def validate_line(splitted_line, line_number):
@@ -36,5 +36,9 @@ def validate_line(splitted_line, line_number):
     if regex.match(splitted_line[1]) is None:
         raise InputFileException(
             'Input File Error: Wrong format of Time of the'\
+            + ' track in line {}'.format((str(line_number))))
+    if len(splitted_line) > 2 and regex.match(splitted_line[2]) is None:
+        raise InputFileException(
+            'Input File Error: Wrong format of EndTime of the'\
             + ' track in line {}'.format((str(line_number))))
     return True
