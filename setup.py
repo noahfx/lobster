@@ -6,7 +6,7 @@ setup(
     package_data={'': ['LICENSE']},
     package_dir={'lobster': 'lobster'},
     scripts=['bin/lobster'],
-    install_requires=['pafy>=0.5.2', 'pydub'],
+    install_requires=['pafy>=0.5.2', 'pydub', 'youtube_dl'],
     author="Josue Ortega",
     author_email="josueortega@protonmail.ch",
     description="Split audio files into tracks with a single command",
