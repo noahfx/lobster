@@ -12,7 +12,7 @@ def get_tempdir():
 def get_workingdir():
     tmp_dir = get_tempdir()
     dir_name = str(int(time.time()))
-    path = "/".join([tmp_dir, dir_name])
+    path = os.path.join(tmp_dir, dir_name)
     os.mkdir(path)
     return path
 
